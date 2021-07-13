@@ -1,4 +1,5 @@
 const program = require('commander')
+const api = require("./index");
 
 
 
@@ -8,17 +9,19 @@ program
     .command('add')
     .description('add a task')
     .action((...args) => {
-        const worlds = args.slice(0,-1).jion(' ')
-        console.log(worlds);
+        const worlds = args.slice(0,-1).join(' ')
+        api.add(worlds).then(()=>{console.log('添加成功')},()=>{console.log('添加失败')});
     });
 program
     .command('clear')
     .description('clear all tasks')
-    .action((...args) => {
-        // const worlds = args.slice(0,-1).jion(' ')
-        console.log('clear');
+    .action(() => {
+       api.clear().then(()=>{console.log('清除完毕')},()=>{console.log('清除失败')})
     })
 program.parse(process.argv);
 
-
+if (process.argv.length===2){
+    //说明用户直接运行 node cli.js
+     api.showAll()
+}
 
